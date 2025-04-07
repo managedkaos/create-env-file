@@ -3,10 +3,11 @@
 Script to read parameters from AWS Parameter Store and output them in .env format.
 """
 
-import sys
-import boto3
 import argparse
-from typing import List, Dict
+import sys
+from typing import Dict, List
+
+import boto3
 
 
 def get_parameters(region: str, path: str) -> List[Dict]:
@@ -20,25 +21,21 @@ def get_parameters(region: str, path: str) -> List[Dict]:
     Returns:
         List of parameter dictionaries
     """
-    ssm = boto3.client('ssm', region_name=region)
+    ssm = boto3.client("ssm", region_name=region)
 
     parameters = []
     next_token = None
 
     while True:
-        kwargs = {
-            'Path': path,
-            'Recursive': True,
-            'WithDecryption': True
-        }
+        kwargs = {"Path": path, "Recursive": True, "WithDecryption": True}
 
         if next_token:
-            kwargs['NextToken'] = next_token
+            kwargs["NextToken"] = next_token
 
         response = ssm.get_parameters_by_path(**kwargs)
-        parameters.extend(response['Parameters'])
+        parameters.extend(response["Parameters"])
 
-        next_token = response.get('NextToken')
+        next_token = response.get("NextToken")
         if not next_token:
             break
 
@@ -58,17 +55,25 @@ def format_env_output(parameters: List[Dict]) -> str:
     output = []
     for param in parameters:
         # Extract the parameter name after the last slash
-        name = param['Name'].split('/')[-1]
-        value = param['Value']
+        name = param["Name"].split("/")[-1]
+        value = param["Value"]
         output.append(f"{name}={value}")
 
-    return '\n'.join(output)
+    return "\n".join(output)
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Read parameters from AWS Parameter Store and output as .env format')
-    parser.add_argument('--region', default='us-east-1', help='AWS region (default: us-east-1)')
-    parser.add_argument('--path', required=True, help='Parameter Store path (e.g., /coursehub/development/)')
+    parser = argparse.ArgumentParser(
+        description="Read parameters from AWS Parameter Store and output as .env format"
+    )
+    parser.add_argument(
+        "--region", default="us-east-1", help="AWS region (default: us-east-1)"
+    )
+    parser.add_argument(
+        "--path",
+        required=True,
+        help="Parameter Store path (e.g., /coursehub/development/)",
+    )
 
     args = parser.parse_args()
 

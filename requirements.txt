@@ -1,4 +1,5 @@
 flake8
 pylint
 black
+isort
 boto3>=1.26.0

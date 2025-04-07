@@ -80,7 +80,7 @@ jobs:
       - name: Archive metadata
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: metadata-${{ matrix.context }}.json
+          name: metadata.json
           path: ${{steps.meta.outputs.bake-file }}
 
       # Build and push Docker image with Buildx (don't push on PR)

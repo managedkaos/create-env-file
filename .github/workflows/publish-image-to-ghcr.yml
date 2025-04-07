@@ -70,6 +70,7 @@ jobs:
           tags: |
             type=sha,format=short,prefix=,suffix=
             type=sha,format=long,prefix=,suffix=
+            type=ref,event=branch,prefix=,suffix=
 
       - name: Disply metadata
         run: |

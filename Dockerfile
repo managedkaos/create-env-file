@@ -1,8 +1,7 @@
-LABEL org.opencontainers.image.description "Creates a Docker-style env file from values in AWS Parameter Store."
-LABEL org.opencontainers.image.source https://github.com/managedkaos/create-env-file
-
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
+LABEL org.opencontainers.image.description="Creates a Docker-style env file from values in AWS Parameter Store."
+LABEL org.opencontainers.image.source=https://github.com/managedkaos/create-env-file
 ENV PROJECT_HOME=/data
 RUN mkdir /data
 

@@ -1,4 +1,4 @@
 flake8
 pylint
 black
-
+boto3>=1.26.0

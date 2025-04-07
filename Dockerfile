@@ -1,13 +1,25 @@
 # Use an official Python runtime as a parent image
-FROM python:3.12-slim
+FROM python:3.9-slim
 ENV PROJECT_HOME=/data
 RUN mkdir /data
 
 # Set the working directory in the container
-WORKDIR /usr/local/bin
+WORKDIR /app
 
-# Copy the script into the container at /usr/src/app
-COPY ./script.py /usr/local/bin/
+# Install required packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    && rm -rf /var/lib/apt/lists/*
 
-# Run the script when the container launches
-ENTRYPOINT ["python", "/usr/local/bin/script.py"]
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application files
+COPY script.py entrypoint.sh .
+
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]

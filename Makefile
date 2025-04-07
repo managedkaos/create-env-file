@@ -13,7 +13,12 @@ help:
 
 requirements:
 	pip install --upgrade pip
-	pip install --quiet --upgrade --requirement requirements.txt
+
+	pip install --quiet --upgrade \
+		--requirement development-requirements.txt
+
+	pip install --quiet --upgrade \
+		--requirement requirements.txt
 
 lint:
 	flake8 --ignore=E501,E231 *.py

@@ -72,7 +72,7 @@ def main():
     parser.add_argument(
         "--path",
         required=True,
-        help="Parameter Store path (e.g., /coursehub/development/)",
+        help="Parameter Store path (e.g., /application_name/environment_name/)",
     )
 
     args = parser.parse_args()
